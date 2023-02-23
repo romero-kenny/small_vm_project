@@ -1,7 +1,12 @@
 //Project made by: Kenneth Romero - Feb 2023
 //For: CSCI 4200 A1 - Dr. Salimi
 //SmallVM Project
-//read file line by line and do something based on line.
+//Virtual Machine of a few commands, can be exteneded pretty easily through
+//making new functions and letting the switch case in keyword_handler 
+//redirect them to how they should be handled.
+//Does not print to a file, but prints to the console.
+//I'm sure you can just capture the input output of the file during the 
+//other_commands_logic pretty easily and just have a seperate function handling that.
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +24,6 @@ public class smallVMProject {
     static String[] allocated_memory = new String[MAX_MEM_SIZE];
     static HashMap<String, Integer> variable_values = new HashMap<String, Integer>();
 
-    //used to clear memory before each use, just incase there's junk data
     static void clear_memory() {
         for (int i = 0; i < allocated_memory.length; i++) {
             allocated_memory[i] = null;
@@ -44,7 +48,6 @@ public class smallVMProject {
 
     }
 
-    //gets variable value from hashmap
     static Integer get_variable_value(String var_name) {
         if (variable_values.containsKey(var_name)) {
             return variable_values.get(var_name);
@@ -80,7 +83,6 @@ public class smallVMProject {
                 break;
 
             case "STO":
-                //I'm pretty stupid huh lol
                 if (is_in_mem(dest_var)) {
                     variable_values.put(dest_var, get_variable_value(dest_var));
                 } else {
@@ -178,14 +180,12 @@ public class smallVMProject {
         variable_allocator(destination, temp_value.orElse(null));
     }
 
-    //checks if variable is valid syntax
     static void is_valid_var(String var_name) {
         if (!var_name.matches("[a-zA-Z_][a-zA-Z0-9_]*")) {
             throw new IllegalArgumentException("Invalid variable name: " + var_name);
         }
     }
 
-    //stores values in hashmap
     static void variable_allocator(String variable_name, int value) {
         is_valid_var(variable_name);
 
