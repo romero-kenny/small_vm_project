@@ -213,19 +213,16 @@ public class smallVMProject {
         source_code_printer();
 
         //iterate through memory
-        memory_loop: for (String line : allocated_memory) {
+        for (String line : allocated_memory) {
             if (line == null) {
                 throw new IllegalArgumentException("Allocated Program Wrong");
             }
 
             //checks for comments and empty lines
-            if (line.contains(";") || line.isEmpty()) {
-                continue memory_loop;
+            if (!(line.contains(";") || line.isEmpty())) {
+                List<String> tokenized_commands = Arrays.asList(line.split(" "));
+                keyword_handler(tokenized_commands);
             }
-
-            //converts the string to actual arrays, allows for easier indexing
-            List<String> tokenized_commands = Arrays.asList(line.split(" "));
-            keyword_handler(tokenized_commands);
         }
     }
 
